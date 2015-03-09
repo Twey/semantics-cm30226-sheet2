@@ -5,6 +5,7 @@ open import Level
 open import Algebra
 open import Categories.Category
 import Relation.Binary.PropositionalEquality as ≡
+open import Relation.Binary.Core using (Rel)
 
 record MonMap {o ℓ o′ ℓ′} (S : Monoid o ℓ) (T : Monoid o′ ℓ′)
     : Set (o ⊔ ℓ ⊔ o′ ⊔ ℓ′) where
@@ -34,20 +35,33 @@ MonMap-∘ f g = record
   where
     module f = MonMap f; module g = MonMap g
 
+MonMap-≡ : ∀ {o ℓ} {A B : Monoid o ℓ} → Rel (MonMap A B) (ℓ ⊔ o)
+MonMap-≡ {B = B} f g = ∀ x → f.map x ≈ g.map x
+  where open Monoid B; module f = MonMap f; module g = MonMap g
+
 -- Does this have finite coproducts?
 Mon : Category (suc zero) zero zero
 Mon = record
   { Obj       = Monoid zero zero
   ; _⇒_       = MonMap
-  ; _≡_       = ≡._≡_
-  ; id        = MonMap-id
-  ; _∘_       = MonMap-∘
-  ; assoc     = ≡.refl
-  ; identityˡ = ≡.refl
-  ; identityʳ = ≡.refl
-  ; equiv     = ≡.isEquivalence
-  ; ∘-resp-≡  = ≡.cong₂ MonMap-∘
+  ; _≡_       = _≡_
+  ; id        = id
+  ; _∘_       = _∘_
+  ; assoc     = λ {_} {_} {_} {D} x → Monoid.refl D
+  ; identityˡ = λ {_} {B} _ → Monoid.refl B
+  ; identityʳ = λ {_} {B} x → Monoid.refl B
+  ; equiv     = λ {A} {B} → let module B = Monoid B; module A = Monoid A in record
+    { refl  = λ _ → B.refl
+    ; sym   = λ p x → B.sym (p x)
+    ; trans = λ p q x → B.trans (p x) (q x)
+    }
+  ; ∘-resp-≡  = λ {_} {_} {C} {f} {_} {_} {i} f≈g h≈i x →
+      Monoid.trans C (MonMap.cong f (h≈i x)) (f≈g (MonMap.map i x))
   }
+  where
+    id  = MonMap-id
+    _≡_ = MonMap-≡
+    _∘_ = MonMap-∘
 
 open import Data.Unit
 open import Data.Product
