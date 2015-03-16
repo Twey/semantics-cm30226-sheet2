@@ -1,6 +1,8 @@
+\begin{code}
+
 module Defs where
 
-import Function as ⇨
+import Function as ⇒
 open import Level
 open import Algebra
 open import Categories.Category
@@ -21,14 +23,14 @@ record MonMap {o ℓ o′ ℓ′} (S : Monoid o ℓ) (T : Monoid o′ ℓ′)
 
 MonMap-id : ∀ {o ℓ} {M : Monoid o ℓ} → MonMap M M
 MonMap-id {M = M} = record
-  { map = ⇨.id; map-resp-ε = refl; map-resp-∙ = λ _ _ → refl; cong = ⇨.id }
+  { map = ⇒.id; map-resp-ε = refl; map-resp-∙ = λ _ _ → refl; cong = ⇒.id }
   where refl = Monoid.refl M
 
 MonMap-∘ : ∀ {o ℓ} {A B C : Monoid o ℓ}
   → MonMap B C → MonMap A B → MonMap A C
 MonMap-∘ f g = record
-  { map        = f.map ⇨.∘ g.map
-  ; cong       = f.cong ⇨.∘ g.cong
+  { map        = f.map ⇒.∘ g.map
+  ; cong       = f.cong ⇒.∘ g.cong
   ; map-resp-ε = f.T.trans (f.cong g.map-resp-ε) f.map-resp-ε
   ; map-resp-∙ = λ x y → f.T.trans (f.cong (g.map-resp-∙ x y)) (f.map-resp-∙ _ _)
   }
@@ -39,14 +41,13 @@ MonMap-≡ : ∀ {o ℓ} {A B : Monoid o ℓ} → Rel (MonMap A B) (ℓ ⊔ o)
 MonMap-≡ {B = B} f g = ∀ x → f.map x ≈ g.map x
   where open Monoid B; module f = MonMap f; module g = MonMap g
 
--- Does this have finite coproducts?
 Mon : Category (suc zero) zero zero
 Mon = record
   { Obj       = Monoid zero zero
   ; _⇒_       = MonMap
-  ; _≡_       = _≡_
-  ; id        = id
-  ; _∘_       = _∘_
+  ; _≡_       = MonMap-≡
+  ; id        = MonMap-id
+  ; _∘_       = MonMap-∘
   ; assoc     = λ {_} {_} {_} {D} x → Monoid.refl D
   ; identityˡ = λ {_} {B} _ → Monoid.refl B
   ; identityʳ = λ {_} {B} x → Monoid.refl B
@@ -58,10 +59,6 @@ Mon = record
   ; ∘-resp-≡  = λ {_} {_} {C} {f} {_} {_} {i} f≈g h≈i x →
       Monoid.trans C (MonMap.cong f (h≈i x)) (f≈g (MonMap.map i x))
   }
-  where
-    id  = MonMap-id
-    _≡_ = MonMap-≡
-    _∘_ = MonMap-∘
 
 open import Data.Unit
 open import Data.Product
@@ -134,54 +131,4 @@ CMon = record
   ; ∘-resp-≡  = ≡.cong₂ MonMap-∘
   }
 
-CMon-1 : CommutativeMonoid zero zero
-CMon-1 = record
-  { Carrier             = Carrier
-  ; _≈_                 = _≈_
-  ; _∙_                 = _∙_
-  ; ε                   = ε
-  ; isCommutativeMonoid = record
-    { isSemigroup = isSemigroup
-    ; identityˡ   = proj₁ identity
-    ; comm        = λ _ _ → ≡.refl
-    }
-  }
-  where open Monoid Mon-1
-
-CMon-T! : (M : CommutativeMonoid zero zero) → CMonMap M CMon-1
-CMon-T! = Mon-T! ⇨.∘ CommutativeMonoid.monoid
-
-_⊗C_ : (M N : CommutativeMonoid zero zero) → CommutativeMonoid zero zero
-M ⊗C N = record
-  { Carrier             = Carrier
-  ; _≈_                 = _≈_
-  ; _∙_                 = _∙_
-  ; ε                   = ε
-  ; isCommutativeMonoid = record
-    { isSemigroup = isSemigroup
-    ; identityˡ   = proj₁ identity
-    ; comm        = λ { (m , n) (m′ , n′) → M.comm m m′ , N.comm n n′ }
-    }
-  }
-  where
-    module M = CommutativeMonoid M
-    module N = CommutativeMonoid N
-    open Monoid (M.monoid ⊗M N.monoid)
-
-CMon-π₁ : ∀ {M N} → CMonMap (M ⊗C N) M
-CMon-π₁ {M = M} = record
-  { map        = proj₁
-  ; cong       = proj₁
-  ; map-resp-ε = M.refl
-  ; map-resp-∙ = λ _ _ → M.refl
-  }
-  where module M = CommutativeMonoid M
-
-CMon-π₂ : ∀ {M N} → CMonMap (M ⊗C N) N
-CMon-π₂ {N = N} = record
-  { map        = proj₂
-  ; cong       = proj₂
-  ; map-resp-ε = N.refl
-  ; map-resp-∙ = λ _ _ → N.refl
-  }
-  where module N = CommutativeMonoid N
+\end{code}

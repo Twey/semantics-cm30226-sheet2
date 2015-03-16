@@ -1,13 +1,68 @@
+\begin{code}
+
 module Problem1 where
 
 open import Defs
 
+import Function as ⇒
 import Relation.Binary.PropositionalEquality as ≡
 open import Level
 open import Algebra
 open import Categories.Category
 open import Data.Unit
 open import Data.Product
+
+CMon-1 : CommutativeMonoid zero zero
+CMon-1 = record
+  { Carrier             = Carrier
+  ; _≈_                 = _≈_
+  ; _∙_                 = _∙_
+  ; ε                   = ε
+  ; isCommutativeMonoid = record
+    { isSemigroup = isSemigroup
+    ; identityˡ   = proj₁ identity
+    ; comm        = λ _ _ → ≡.refl
+    }
+  }
+  where open Monoid Mon-1
+
+CMon-T! : (M : CommutativeMonoid zero zero) → CMonMap M CMon-1
+CMon-T! = Mon-T! ⇒.∘ CommutativeMonoid.monoid
+
+_⊗C_ : (M N : CommutativeMonoid zero zero) → CommutativeMonoid zero zero
+M ⊗C N = record
+  { Carrier             = Carrier
+  ; _≈_                 = _≈_
+  ; _∙_                 = _∙_
+  ; ε                   = ε
+  ; isCommutativeMonoid = record
+    { isSemigroup = isSemigroup
+    ; identityˡ   = proj₁ identity
+    ; comm        = λ { (m , n) (m′ , n′) → M.comm m m′ , N.comm n n′ }
+    }
+  }
+  where
+    module M = CommutativeMonoid M
+    module N = CommutativeMonoid N
+    open Monoid (M.monoid ⊗M N.monoid)
+
+CMon-π₁ : ∀ {M N} → CMonMap (M ⊗C N) M
+CMon-π₁ {M = M} = record
+  { map        = proj₁
+  ; cong       = proj₁
+  ; map-resp-ε = M.refl
+  ; map-resp-∙ = λ _ _ → M.refl
+  }
+  where module M = CommutativeMonoid M
+
+CMon-π₂ : ∀ {M N} → CMonMap (M ⊗C N) N
+CMon-π₂ {N = N} = record
+  { map        = proj₂
+  ; cong       = proj₂
+  ; map-resp-ε = N.refl
+  ; map-resp-∙ = λ _ _ → N.refl
+  }
+  where module N = CommutativeMonoid N
 
 open import Categories.Object.Terminal
 CMon-Terminal : Terminal CMon
@@ -55,3 +110,5 @@ CMon-FiniteProducts = record
   { terminal = CMon-Terminal
   ; binary   = record { product = CMon-Product }
   }
+
+\end{code}

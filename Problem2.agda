@@ -9,6 +9,7 @@ open import Categories.Object.Initial
 open import Data.Product
 open import Data.Unit
 import Relation.Binary.PropositionalEquality as ≡
+open import Relation.Unary hiding (∅)
 
 Mon-I! : (M : Monoid zero zero) → MonMap Mon-1 M
 Mon-I! M = record
@@ -19,20 +20,19 @@ Mon-I! M = record
   }
   where open Monoid M
 
-postulate
-  ext : ∀ {a b} {A : Set a} {B : Set b} {f g : A → B}
-      → (∀ x → f x ≡.≡ g x) → f ≡.≡ g
-
 Mon-Initial : Initial Mon
 Mon-Initial = record
-  { ⊥ = Mon-1
-  ; ! = Mon-I! _
-  ; !-unique = unique
+  { ⊥        = Mon-1
+  ; !        = Mon-I! _
+  ; !-unique =
+      λ {A} f → λ { tt → Monoid.sym A (MonMap.map-resp-ε f) }
   }
-  where
-    open Category Mon
-    .blah : ∀ (A : Monoid zero zero) (fmap : ⊤ → Monoid.Carrier A) (frε : Monoid._≈_ A (fmap tt) (Monoid.ε A)) → (λ _ → Monoid.ε A) ≡.≡ fmap
-    blah A fmap frε = ext (λ { tt → {!Monoid.sym A frε!} })
-    .unique : {A : Obj} (f : Mon-1 ⇒ A) → Mon-I! A ≡ f
-    unique {A} (monMap fmap fcong fmap-resp-ε fmap-resp-∙) with blah A fmap (irr fmap-resp-ε)
-    unique (monMap ._ fcong fmap-resp-ε fmap-resp-∙) | ≡.refl = {!!}
+
+_⊕M_ : (M N : Monoid zero zero) → Monoid zero zero
+M ⊕M N = record
+  { Carrier = M.Carrier N.Carrier
+  ; _≈_ = {!!}
+  ; _∙_ = {!!}
+  ; ε = {!!}
+  ; isMonoid = {!!} }
+  where module M = Monoid M; module N = Monoid N

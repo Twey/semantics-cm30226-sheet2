@@ -1,0 +1,41 @@
+\documentclass{article}
+\usepackage[references]{agda}
+
+ \usepackage{amssymb}
+ \usepackage{bbm}
+ \usepackage[greek,english]{babel}
+ \usepackage{textgreek}
+
+ % This handles the translation of unicode to latex:
+
+ \usepackage{ucs}
+ \usepackage[utf8x]{inputenc}
+ \usepackage{autofe}
+
+ % Some characters that are not automatically defined
+ % (you figure out by the latex compilation errors you get),
+ % and you need to define:
+
+ \DeclareUnicodeCharacter{8988}{\ensuremath{\ulcorner}}
+ \DeclareUnicodeCharacter{8989}{\ensuremath{\urcorner}}
+ \DeclareUnicodeCharacter{8803}{\ensuremath{\overline{\equiv}}}
+ \DeclareUnicodeCharacter{8680}{\ensuremath{\Rightarrow}}
+ \DeclareUnicodeCharacter{737}{\ensuremath{^l}}
+ \DeclareUnicodeCharacter{8344}{\ensuremath{_m}}
+ \DeclareUnicodeCharacter{8345}{\ensuremath{_n}}
+
+ % Add more as you need them (shouldn’t happen often).
+
+ % Using “\newenvironment” to redefine verbatim to
+ % be called “code” doesn’t always work properly.
+ % You can more reliably use:
+
+\begin{document}
+
+\section{Some Definitions}
+\input{Defs}
+
+\section{Problem 1}
+\input{Problem1}
+
+\end{document}

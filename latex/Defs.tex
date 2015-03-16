@@ -1,0 +1,390 @@
+\begin{code}%
+\>\<%
+\\
+\>\AgdaKeyword{module} \AgdaModule{Defs} \AgdaKeyword{where}\<%
+\\
+%
+\\
+\>\AgdaKeyword{import} \AgdaModule{Function} \AgdaSymbol{as} \AgdaModule{⇒}\<%
+\\
+\>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Level}\<%
+\\
+\>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Algebra}\<%
+\\
+\>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Categories.Category}\<%
+\\
+\>\AgdaKeyword{import} \AgdaModule{Relation.Binary.PropositionalEquality} \AgdaSymbol{as} \AgdaModule{≡}\<%
+\\
+\>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Relation.Binary.Core} \AgdaKeyword{using} \AgdaSymbol{(}Rel\AgdaSymbol{)}\<%
+\\
+%
+\\
+\>\AgdaKeyword{record} \AgdaRecord{MonMap} \AgdaSymbol{\{}\AgdaBound{o} \AgdaBound{ℓ} \AgdaBound{o′} \AgdaBound{ℓ′}\AgdaSymbol{\}} \AgdaSymbol{(}\AgdaBound{S} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{o} \AgdaBound{ℓ}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaBound{T} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{o′} \AgdaBound{ℓ′}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{:} \AgdaPrimitiveType{Set} \AgdaSymbol{(}\AgdaBound{o} \AgdaPrimitive{⊔} \AgdaBound{ℓ} \AgdaPrimitive{⊔} \AgdaBound{o′} \AgdaPrimitive{⊔} \AgdaBound{ℓ′}\AgdaSymbol{)} \AgdaKeyword{where}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{constructor} \AgdaInductiveConstructor{monMap}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{module} \AgdaModule{S} \AgdaSymbol{=} \AgdaModule{Monoid} \AgdaBound{S}\AgdaSymbol{;} \AgdaKeyword{module} \AgdaModule{T} \AgdaSymbol{=} \AgdaModule{Monoid} \AgdaBound{T}\AgdaSymbol{;} \AgdaKeyword{open} \AgdaModule{T}\<%
+\\
+%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{field}\<%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaField{map} \<[16]%
+\>[16]\AgdaSymbol{:} \AgdaFunction{S.Carrier} \AgdaSymbol{→} \AgdaFunction{Carrier}\<%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{.}\AgdaField{cong} \<[16]%
+\>[16]\AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{x} \AgdaBound{y}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaBound{x} \AgdaFunction{S.≈} \AgdaBound{y} \AgdaSymbol{→} \AgdaBound{map} \AgdaBound{x} \AgdaFunction{≈} \AgdaBound{map} \AgdaBound{y}\<%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{.}\AgdaField{map-resp-ε} \AgdaSymbol{:} \AgdaBound{map} \AgdaFunction{S.ε} \AgdaFunction{≈} \AgdaFunction{ε}\<%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{.}\AgdaField{map-resp-∙} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaBound{x} \AgdaBound{y} \AgdaSymbol{→} \AgdaBound{map} \AgdaSymbol{(}\AgdaBound{x} \AgdaFunction{S.∙} \AgdaBound{y}\AgdaSymbol{)} \AgdaFunction{≈} \AgdaBound{map} \AgdaBound{x} \AgdaFunction{∙} \AgdaBound{map} \AgdaBound{y}\<%
+\\
+%
+\\
+\>\AgdaFunction{MonMap-id} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{o} \AgdaBound{ℓ}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{M} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{o} \AgdaBound{ℓ}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaRecord{MonMap} \AgdaBound{M} \AgdaBound{M}\<%
+\\
+\>\AgdaFunction{MonMap-id} \AgdaSymbol{\{}\AgdaArgument{M} \AgdaSymbol{=} \AgdaBound{M}\AgdaSymbol{\}} \AgdaSymbol{=} \AgdaKeyword{record}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{\{} \AgdaField{map} \AgdaSymbol{=} \AgdaFunction{⇒.id}\AgdaSymbol{;} \AgdaField{map-resp-ε} \AgdaSymbol{=} \AgdaFunction{refl}\AgdaSymbol{;} \AgdaField{map-resp-∙} \AgdaSymbol{=} \AgdaSymbol{λ} \AgdaBound{\_} \AgdaBound{\_} \AgdaSymbol{→} \AgdaFunction{refl}\AgdaSymbol{;} \AgdaField{cong} \AgdaSymbol{=} \AgdaFunction{⇒.id} \AgdaSymbol{\}}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{where} \AgdaFunction{refl} \AgdaSymbol{=} \AgdaFunction{Monoid.refl} \AgdaBound{M}\<%
+\\
+%
+\\
+\>\AgdaFunction{MonMap-∘} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{o} \AgdaBound{ℓ}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaBound{B} \AgdaBound{C} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{o} \AgdaBound{ℓ}\AgdaSymbol{\}}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{→} \AgdaRecord{MonMap} \AgdaBound{B} \AgdaBound{C} \AgdaSymbol{→} \AgdaRecord{MonMap} \AgdaBound{A} \AgdaBound{B} \AgdaSymbol{→} \AgdaRecord{MonMap} \AgdaBound{A} \AgdaBound{C}\<%
+\\
+\>\AgdaFunction{MonMap-∘} \AgdaBound{f} \AgdaBound{g} \AgdaSymbol{=} \AgdaKeyword{record}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{\{} \AgdaField{map} \<[15]%
+\>[15]\AgdaSymbol{=} \AgdaFunction{f.map} \AgdaFunction{⇒.∘} \AgdaFunction{g.map}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{cong} \<[15]%
+\>[15]\AgdaSymbol{=} \AgdaFunction{f.cong} \AgdaFunction{⇒.∘} \AgdaFunction{g.cong}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{map-resp-ε} \AgdaSymbol{=} \AgdaFunction{f.T.trans} \AgdaSymbol{(}\AgdaFunction{f.cong} \AgdaFunction{g.map-resp-ε}\AgdaSymbol{)} \AgdaFunction{f.map-resp-ε}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{map-resp-∙} \AgdaSymbol{=} \AgdaSymbol{λ} \AgdaBound{x} \AgdaBound{y} \AgdaSymbol{→} \AgdaFunction{f.T.trans} \AgdaSymbol{(}\AgdaFunction{f.cong} \AgdaSymbol{(}\AgdaFunction{g.map-resp-∙} \AgdaBound{x} \AgdaBound{y}\AgdaSymbol{))} \AgdaSymbol{(}\AgdaFunction{f.map-resp-∙} \AgdaSymbol{\_} \AgdaSymbol{\_)}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{\}}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{where}\<%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{module} \AgdaModule{f} \AgdaSymbol{=} \AgdaModule{MonMap} \AgdaBound{f}\AgdaSymbol{;} \AgdaKeyword{module} \AgdaModule{g} \AgdaSymbol{=} \AgdaModule{MonMap} \AgdaBound{g}\<%
+\\
+%
+\\
+\>\AgdaFunction{MonMap-≡} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{o} \AgdaBound{ℓ}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaBound{B} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{o} \AgdaBound{ℓ}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaFunction{Rel} \AgdaSymbol{(}\AgdaRecord{MonMap} \AgdaBound{A} \AgdaBound{B}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaBound{ℓ} \AgdaPrimitive{⊔} \AgdaBound{o}\AgdaSymbol{)}\<%
+\\
+\>\AgdaFunction{MonMap-≡} \AgdaSymbol{\{}\AgdaArgument{B} \AgdaSymbol{=} \AgdaBound{B}\AgdaSymbol{\}} \AgdaBound{f} \AgdaBound{g} \AgdaSymbol{=} \AgdaSymbol{∀} \AgdaBound{x} \AgdaSymbol{→} \AgdaFunction{f.map} \AgdaBound{x} \AgdaFunction{≈} \AgdaFunction{g.map} \AgdaBound{x}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{where} \AgdaKeyword{open} \AgdaModule{Monoid} \AgdaBound{B}\AgdaSymbol{;} \AgdaKeyword{module} \AgdaModule{f} \AgdaSymbol{=} \AgdaModule{MonMap} \AgdaBound{f}\AgdaSymbol{;} \AgdaKeyword{module} \AgdaModule{g} \AgdaSymbol{=} \AgdaModule{MonMap} \AgdaBound{g}\<%
+\\
+%
+\\
+\>\AgdaFunction{Mon} \AgdaSymbol{:} \AgdaRecord{Category} \AgdaSymbol{(}\AgdaPrimitive{suc} \AgdaPrimitive{zero}\AgdaSymbol{)} \AgdaPrimitive{zero} \AgdaPrimitive{zero}\<%
+\\
+\>\AgdaFunction{Mon} \AgdaSymbol{=} \AgdaKeyword{record}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{\{} \AgdaField{Obj} \<[14]%
+\>[14]\AgdaSymbol{=} \AgdaRecord{Monoid} \AgdaPrimitive{zero} \AgdaPrimitive{zero}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{\_⇒\_} \<[14]%
+\>[14]\AgdaSymbol{=} \AgdaRecord{MonMap}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{\_≡\_} \<[14]%
+\>[14]\AgdaSymbol{=} \AgdaFunction{MonMap-≡}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{id} \<[14]%
+\>[14]\AgdaSymbol{=} \AgdaFunction{MonMap-id}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{\_∘\_} \<[14]%
+\>[14]\AgdaSymbol{=} \AgdaFunction{MonMap-∘}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{assoc} \<[14]%
+\>[14]\AgdaSymbol{=} \AgdaSymbol{λ} \AgdaSymbol{\{}\AgdaBound{\_}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{\_}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{\_}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{D}\AgdaSymbol{\}} \AgdaBound{x} \AgdaSymbol{→} \AgdaFunction{Monoid.refl} \AgdaBound{D}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{identityˡ} \AgdaSymbol{=} \AgdaSymbol{λ} \AgdaSymbol{\{}\AgdaBound{\_}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{B}\AgdaSymbol{\}} \AgdaBound{\_} \AgdaSymbol{→} \AgdaFunction{Monoid.refl} \AgdaBound{B}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{identityʳ} \AgdaSymbol{=} \AgdaSymbol{λ} \AgdaSymbol{\{}\AgdaBound{\_}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{B}\AgdaSymbol{\}} \AgdaBound{x} \AgdaSymbol{→} \AgdaFunction{Monoid.refl} \AgdaBound{B}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{equiv} \<[14]%
+\>[14]\AgdaSymbol{=} \AgdaSymbol{λ} \AgdaSymbol{\{}\AgdaBound{A}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{B}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaKeyword{let} \AgdaKeyword{module} \AgdaModule{B} \AgdaSymbol{=} \AgdaModule{Monoid} \AgdaBound{B}\AgdaSymbol{;} \AgdaKeyword{module} \AgdaModule{A} \AgdaSymbol{=} \AgdaModule{Monoid} \AgdaBound{A} \AgdaKeyword{in} \AgdaKeyword{record}\<%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{\{} \AgdaField{refl} \<[12]%
+\>[12]\AgdaSymbol{=} \AgdaSymbol{λ} \AgdaBound{\_} \AgdaSymbol{→} \AgdaFunction{B.refl}\<%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{;} \AgdaField{sym} \<[12]%
+\>[12]\AgdaSymbol{=} \AgdaSymbol{λ} \AgdaBound{p} \AgdaBound{x} \AgdaSymbol{→} \AgdaFunction{B.sym} \AgdaSymbol{(}\AgdaBound{p} \AgdaBound{x}\AgdaSymbol{)}\<%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{;} \AgdaField{trans} \AgdaSymbol{=} \AgdaSymbol{λ} \AgdaBound{p} \AgdaBound{q} \AgdaBound{x} \AgdaSymbol{→} \AgdaFunction{B.trans} \AgdaSymbol{(}\AgdaBound{p} \AgdaBound{x}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaBound{q} \AgdaBound{x}\AgdaSymbol{)}\<%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{\}}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{∘-resp-≡} \<[14]%
+\>[14]\AgdaSymbol{=} \AgdaSymbol{λ} \AgdaSymbol{\{}\AgdaBound{\_}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{\_}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{C}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{f}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{\_}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{\_}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{i}\AgdaSymbol{\}} \AgdaBound{f≈g} \AgdaBound{h≈i} \AgdaBound{x} \AgdaSymbol{→}\<%
+\\
+\>[2]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaFunction{Monoid.trans} \AgdaBound{C} \AgdaSymbol{(}\AgdaField{MonMap.cong} \AgdaBound{f} \AgdaSymbol{(}\AgdaBound{h≈i} \AgdaBound{x}\AgdaSymbol{))} \AgdaSymbol{(}\AgdaBound{f≈g} \AgdaSymbol{(}\AgdaField{MonMap.map} \AgdaBound{i} \AgdaBound{x}\AgdaSymbol{))}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{\}}\<%
+\\
+%
+\\
+\>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Data.Unit}\<%
+\\
+\>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Data.Product}\<%
+\\
+%
+\\
+\>\AgdaFunction{Mon-1} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaPrimitive{zero} \AgdaPrimitive{zero}\<%
+\\
+\>\AgdaFunction{Mon-1} \AgdaSymbol{=} \AgdaKeyword{record}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{\{} \AgdaField{Carrier} \<[13]%
+\>[13]\AgdaSymbol{=} \AgdaRecord{⊤}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{\_≈\_} \<[13]%
+\>[13]\AgdaSymbol{=} \AgdaDatatype{≡.\_≡\_}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{\_∙\_} \<[13]%
+\>[13]\AgdaSymbol{=} \AgdaSymbol{λ} \AgdaBound{\_} \AgdaBound{\_} \AgdaSymbol{→} \AgdaInductiveConstructor{tt}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{ε} \<[13]%
+\>[13]\AgdaSymbol{=} \AgdaInductiveConstructor{tt}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{isMonoid} \AgdaSymbol{=} \AgdaKeyword{record}\<%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{\{} \AgdaField{isSemigroup} \AgdaSymbol{=} \AgdaKeyword{record}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaSymbol{\{} \AgdaField{isEquivalence} \AgdaSymbol{=} \AgdaFunction{≡.isEquivalence}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaSymbol{;} \AgdaField{assoc} \<[22]%
+\>[22]\AgdaSymbol{=} \AgdaSymbol{λ} \AgdaBound{\_} \AgdaBound{\_} \AgdaBound{\_} \AgdaSymbol{→} \AgdaInductiveConstructor{≡.refl}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaSymbol{;} \AgdaField{∙-cong} \<[22]%
+\>[22]\AgdaSymbol{=} \AgdaSymbol{λ} \AgdaBound{\_} \AgdaBound{\_} \AgdaSymbol{→} \AgdaInductiveConstructor{≡.refl}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaSymbol{\}}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{;} \AgdaField{identity} \AgdaSymbol{=} \AgdaSymbol{(λ} \AgdaBound{\_} \AgdaSymbol{→} \AgdaInductiveConstructor{≡.refl}\AgdaSymbol{)} \AgdaInductiveConstructor{,} \AgdaSymbol{(λ} \AgdaBound{\_} \AgdaSymbol{→} \AgdaInductiveConstructor{≡.refl}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{\}}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{\}}\<%
+\\
+%
+\\
+\>\AgdaFunction{Mon-T!} \AgdaSymbol{:} \AgdaSymbol{(}\AgdaBound{M} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaPrimitive{zero} \AgdaPrimitive{zero}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaRecord{MonMap} \AgdaBound{M} \AgdaFunction{Mon-1}\<%
+\\
+\>\AgdaFunction{Mon-T!} \AgdaBound{M} \AgdaSymbol{=} \AgdaKeyword{record}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{\{} \AgdaField{map} \<[15]%
+\>[15]\AgdaSymbol{=} \AgdaSymbol{λ} \AgdaBound{\_} \AgdaSymbol{→} \AgdaInductiveConstructor{tt}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{cong} \<[15]%
+\>[15]\AgdaSymbol{=} \AgdaSymbol{λ} \AgdaBound{\_} \AgdaSymbol{→} \AgdaInductiveConstructor{≡.refl}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{map-resp-ε} \AgdaSymbol{=} \AgdaInductiveConstructor{≡.refl}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{map-resp-∙} \AgdaSymbol{=} \AgdaSymbol{λ} \AgdaBound{\_} \AgdaBound{\_} \AgdaSymbol{→} \AgdaInductiveConstructor{≡.refl}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{\}}\<%
+\\
+%
+\\
+\>\AgdaFunction{\_⊗M\_} \AgdaSymbol{:} \AgdaSymbol{(}\AgdaBound{M} \AgdaBound{N} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaPrimitive{zero} \AgdaPrimitive{zero}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaRecord{Monoid} \AgdaPrimitive{zero} \AgdaPrimitive{zero}\<%
+\\
+\>\AgdaBound{M} \AgdaFunction{⊗M} \AgdaBound{N} \AgdaSymbol{=} \AgdaKeyword{record}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{\{} \AgdaField{Carrier} \<[13]%
+\>[13]\AgdaSymbol{=} \AgdaFunction{M.Carrier} \AgdaFunction{×} \AgdaFunction{N.Carrier}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{\_≈\_} \<[13]%
+\>[13]\AgdaSymbol{=} \AgdaSymbol{λ} \AgdaSymbol{\{} \AgdaSymbol{(}\AgdaBound{m} \AgdaInductiveConstructor{,} \AgdaBound{n}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaBound{m′} \AgdaInductiveConstructor{,} \AgdaBound{n′}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaBound{m} \AgdaFunction{M.≈} \AgdaBound{m′} \AgdaFunction{×} \AgdaBound{n} \AgdaFunction{N.≈} \AgdaBound{n′} \AgdaSymbol{\}}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{\_∙\_} \<[13]%
+\>[13]\AgdaSymbol{=} \AgdaFunction{zip} \AgdaFunction{M.\_∙\_} \AgdaFunction{N.\_∙\_}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{ε} \<[13]%
+\>[13]\AgdaSymbol{=} \AgdaSymbol{(}\AgdaFunction{M.ε} \AgdaInductiveConstructor{,} \AgdaFunction{N.ε}\AgdaSymbol{)}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{isMonoid} \AgdaSymbol{=} \AgdaKeyword{record}\<%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{\{} \AgdaField{isSemigroup} \AgdaSymbol{=} \AgdaKeyword{record}\<%
+\\
+\>[4]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaSymbol{\{} \AgdaField{isEquivalence} \AgdaSymbol{=} \AgdaKeyword{record}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{\{} \AgdaField{refl} \<[16]%
+\>[16]\AgdaSymbol{=} \AgdaFunction{M.refl} \AgdaInductiveConstructor{,} \AgdaFunction{N.refl}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{;} \AgdaField{sym} \<[16]%
+\>[16]\AgdaSymbol{=} \AgdaFunction{map} \AgdaFunction{M.sym} \AgdaFunction{N.sym}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{;} \AgdaField{trans} \AgdaSymbol{=} \AgdaFunction{zip} \AgdaFunction{M.trans} \AgdaFunction{N.trans}\<%
+\\
+\>[6]\AgdaIndent{8}{}\<[8]%
+\>[8]\AgdaSymbol{\}}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaSymbol{;} \AgdaField{assoc} \AgdaSymbol{=} \AgdaSymbol{λ} \AgdaSymbol{\{} \AgdaSymbol{(}\AgdaBound{xₘ} \AgdaInductiveConstructor{,} \AgdaBound{xₙ}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaBound{yₘ} \AgdaInductiveConstructor{,} \AgdaBound{yₙ}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaBound{zₘ} \AgdaInductiveConstructor{,} \AgdaBound{zₙ}\AgdaSymbol{)}\<%
+\\
+\>[6]\AgdaIndent{22}{}\<[22]%
+\>[22]\AgdaSymbol{→} \AgdaFunction{M.assoc} \AgdaBound{xₘ} \AgdaBound{yₘ} \AgdaBound{zₘ} \AgdaInductiveConstructor{,} \AgdaFunction{N.assoc} \AgdaBound{xₙ} \AgdaBound{yₙ} \AgdaBound{zₙ} \AgdaSymbol{\}}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaSymbol{;} \AgdaField{∙-cong} \AgdaSymbol{=} \AgdaFunction{zip} \AgdaFunction{M.∙-cong} \AgdaFunction{N.∙-cong}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaSymbol{\}}\<%
+\\
+\>[0]\AgdaIndent{6}{}\<[6]%
+\>[6]\AgdaSymbol{;} \AgdaField{identity} \AgdaSymbol{=} \AgdaSymbol{(λ} \AgdaSymbol{\{} \AgdaSymbol{(}\AgdaBound{m} \AgdaInductiveConstructor{,} \AgdaBound{n}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaField{proj₁} \AgdaFunction{M.identity} \AgdaBound{m} \AgdaInductiveConstructor{,} \AgdaField{proj₁} \AgdaFunction{N.identity} \AgdaBound{n} \AgdaSymbol{\})}\<%
+\\
+\>[6]\AgdaIndent{17}{}\<[17]%
+\>[17]\AgdaInductiveConstructor{,} \AgdaSymbol{(λ} \AgdaSymbol{\{} \AgdaSymbol{(}\AgdaBound{m} \AgdaInductiveConstructor{,} \AgdaBound{n}\AgdaSymbol{)} \AgdaSymbol{→} \AgdaField{proj₂} \AgdaFunction{M.identity} \AgdaBound{m} \AgdaInductiveConstructor{,} \AgdaField{proj₂} \AgdaFunction{N.identity} \AgdaBound{n} \AgdaSymbol{\})}\<%
+\\
+\>[0]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{\}}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{\}}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaKeyword{where}\<%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaKeyword{module} \AgdaModule{M} \AgdaSymbol{=} \AgdaModule{Monoid} \AgdaBound{M}\AgdaSymbol{;} \AgdaKeyword{module} \AgdaModule{N} \AgdaSymbol{=} \AgdaModule{Monoid} \AgdaBound{N}\<%
+\\
+%
+\\
+\>\AgdaFunction{CMonMap} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{o} \AgdaBound{ℓ} \AgdaBound{o′} \AgdaBound{ℓ′}\AgdaSymbol{\}}\<%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{(}\AgdaBound{S} \AgdaSymbol{:} \AgdaRecord{CommutativeMonoid} \AgdaBound{o} \AgdaBound{ℓ}\AgdaSymbol{)}\<%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{(}\AgdaBound{T} \AgdaSymbol{:} \AgdaRecord{CommutativeMonoid} \AgdaBound{o′} \AgdaBound{ℓ′}\AgdaSymbol{)}\<%
+\\
+\>[2]\AgdaIndent{4}{}\<[4]%
+\>[4]\AgdaSymbol{→} \AgdaPrimitiveType{Set} \AgdaSymbol{(}\AgdaBound{o} \AgdaPrimitive{⊔} \AgdaBound{ℓ} \AgdaPrimitive{⊔} \AgdaBound{o′} \AgdaPrimitive{⊔} \AgdaBound{ℓ′}\AgdaSymbol{)}\<%
+\\
+\>\AgdaFunction{CMonMap} \AgdaBound{S} \AgdaBound{T} \AgdaSymbol{=} \AgdaRecord{MonMap} \AgdaSymbol{(}\AgdaFunction{CommutativeMonoid.monoid} \AgdaBound{S}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaFunction{CommutativeMonoid.monoid} \AgdaBound{T}\AgdaSymbol{)}\<%
+\\
+%
+\\
+\>\AgdaFunction{CMon} \AgdaSymbol{:} \AgdaRecord{Category} \AgdaSymbol{(}\AgdaPrimitive{suc} \AgdaPrimitive{zero}\AgdaSymbol{)} \AgdaPrimitive{zero} \AgdaPrimitive{zero}\<%
+\\
+\>\AgdaFunction{CMon} \AgdaSymbol{=} \AgdaKeyword{record}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{\{} \AgdaField{Obj} \<[14]%
+\>[14]\AgdaSymbol{=} \AgdaRecord{CommutativeMonoid} \AgdaPrimitive{zero} \AgdaPrimitive{zero}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{\_⇒\_} \<[14]%
+\>[14]\AgdaSymbol{=} \AgdaFunction{CMonMap}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{\_≡\_} \<[14]%
+\>[14]\AgdaSymbol{=} \AgdaDatatype{≡.\_≡\_}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{id} \<[14]%
+\>[14]\AgdaSymbol{=} \AgdaFunction{MonMap-id}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{\_∘\_} \<[14]%
+\>[14]\AgdaSymbol{=} \AgdaFunction{MonMap-∘}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{assoc} \<[14]%
+\>[14]\AgdaSymbol{=} \AgdaInductiveConstructor{≡.refl}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{identityˡ} \AgdaSymbol{=} \AgdaInductiveConstructor{≡.refl}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{identityʳ} \AgdaSymbol{=} \AgdaInductiveConstructor{≡.refl}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{equiv} \<[14]%
+\>[14]\AgdaSymbol{=} \AgdaFunction{≡.isEquivalence}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{;} \AgdaField{∘-resp-≡} \<[14]%
+\>[14]\AgdaSymbol{=} \AgdaFunction{≡.cong₂} \AgdaFunction{MonMap-∘}\<%
+\\
+\>[0]\AgdaIndent{2}{}\<[2]%
+\>[2]\AgdaSymbol{\}}\<%
+\\
+\>\<%
+\end{code}
