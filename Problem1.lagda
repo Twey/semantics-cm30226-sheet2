@@ -1,5 +1,4 @@
 \begin{code}
-
 module Problem1 where
 
 open import Defs
@@ -11,7 +10,11 @@ open import Algebra
 open import Categories.Category
 open import Data.Unit
 open import Data.Product
+\end{code}
 
+Commutative monoid terminal object and products.
+
+\begin{code}
 CMon-1 : CommutativeMonoid zero zero
 CMon-1 = record
   { Carrier             = Carrier
@@ -45,7 +48,11 @@ M ⊗C N = record
     module M = CommutativeMonoid M
     module N = CommutativeMonoid N
     open Monoid (M.monoid ⊗M N.monoid)
+\end{code}
 
+Product projections.
+
+\begin{code}
 CMon-π₁ : ∀ {M N} → CMonMap (M ⊗C N) M
 CMon-π₁ {M = M} = record
   { map        = proj₁
@@ -63,7 +70,11 @@ CMon-π₂ {N = N} = record
   ; map-resp-∙ = λ _ _ → N.refl
   }
   where module N = CommutativeMonoid N
+\end{code}
 
+1 is the terminal object.
+
+\begin{code}
 open import Categories.Object.Terminal
 CMon-Terminal : Terminal CMon
 CMon-Terminal = record
@@ -71,7 +82,14 @@ CMon-Terminal = record
   ; !        = λ {M} → CMon-T! M
   ; !-unique = λ _ → ≡.refl
   }
+\end{code}
 
+There are products with the given terminal object and projections.
+Unfortunately, Agda's argument inference fails on the definition of
+{\tt universal}, and I haven't time to figure out why.  Pretend it says
+{\tt universal : CMon-π₁ ∘ i ≡ f → CMon-π₂ ∘ i ≡ g → ⟨ f , g ⟩ ≡ i}.
+
+\begin{code}
 open import Categories.Object.Product
 CMon-Product : ∀ {M N} → Product CMon M N
 CMon-Product {M} {N} = record
@@ -110,5 +128,4 @@ CMon-FiniteProducts = record
   { terminal = CMon-Terminal
   ; binary   = record { product = CMon-Product }
   }
-
 \end{code}

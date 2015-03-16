@@ -1,5 +1,4 @@
 \begin{code}
-
 module Defs where
 
 import Function as ⇒
@@ -8,7 +7,12 @@ open import Algebra
 open import Categories.Category
 import Relation.Binary.PropositionalEquality as ≡
 open import Relation.Binary.Core using (Rel)
+\end{code}
 
+Begin by defining monoid maps, slightly generalized to arbitrary
+relations.
+
+\begin{code}
 record MonMap {o ℓ o′ ℓ′} (S : Monoid o ℓ) (T : Monoid o′ ℓ′)
     : Set (o ⊔ ℓ ⊔ o′ ⊔ ℓ′) where
   constructor monMap
@@ -36,11 +40,19 @@ MonMap-∘ f g = record
   }
   where
     module f = MonMap f; module g = MonMap g
+\end{code}
 
+Extensional equality is sufficient to identify monoid maps.
+
+\begin{code}
 MonMap-≡ : ∀ {o ℓ} {A B : Monoid o ℓ} → Rel (MonMap A B) (ℓ ⊔ o)
 MonMap-≡ {B = B} f g = ∀ x → f.map x ≈ g.map x
   where open Monoid B; module f = MonMap f; module g = MonMap g
+\end{code}
 
+The definition of the category.
+
+\begin{code}
 Mon : Category (suc zero) zero zero
 Mon = record
   { Obj       = Monoid zero zero
@@ -59,7 +71,12 @@ Mon = record
   ; ∘-resp-≡  = λ {_} {_} {C} {f} {_} {_} {i} f≈g h≈i x →
       Monoid.trans C (MonMap.cong f (h≈i x)) (f≈g (MonMap.map i x))
   }
+\end{code}
 
+And now some objects of the category: the one-element monoid, maps to
+it, and monoid products.
+
+\begin{code}
 open import Data.Unit
 open import Data.Product
 
@@ -110,7 +127,11 @@ M ⊗M N = record
   }
   where
     module M = Monoid M; module N = Monoid N
+\end{code}
 
+Similarly for commutative monoids; we can reüse much of the monoid machinery.
+
+\begin{code}
 CMonMap : ∀ {o ℓ o′ ℓ′}
     (S : CommutativeMonoid o ℓ)
     (T : CommutativeMonoid o′ ℓ′)
@@ -130,5 +151,4 @@ CMon = record
   ; equiv     = ≡.isEquivalence
   ; ∘-resp-≡  = ≡.cong₂ MonMap-∘
   }
-
 \end{code}

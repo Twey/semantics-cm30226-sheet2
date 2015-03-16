@@ -1,41 +1,43 @@
 \documentclass{article}
 \usepackage[references]{agda}
 
- \usepackage{amssymb}
- \usepackage{bbm}
- \usepackage[greek,english]{babel}
- \usepackage{textgreek}
+\usepackage{amssymb}
+\usepackage{bbm}
+\usepackage[greek,english]{babel}
+\usepackage{textgreek}
+\usepackage{url}
+\usepackage{wasysym}
 
- % This handles the translation of unicode to latex:
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+\usepackage{autofe}
 
- \usepackage{ucs}
- \usepackage[utf8x]{inputenc}
- \usepackage{autofe}
-
- % Some characters that are not automatically defined
- % (you figure out by the latex compilation errors you get),
- % and you need to define:
-
- \DeclareUnicodeCharacter{8988}{\ensuremath{\ulcorner}}
- \DeclareUnicodeCharacter{8989}{\ensuremath{\urcorner}}
- \DeclareUnicodeCharacter{8803}{\ensuremath{\overline{\equiv}}}
- \DeclareUnicodeCharacter{8680}{\ensuremath{\Rightarrow}}
- \DeclareUnicodeCharacter{737}{\ensuremath{^l}}
- \DeclareUnicodeCharacter{8344}{\ensuremath{_m}}
- \DeclareUnicodeCharacter{8345}{\ensuremath{_n}}
-
- % Add more as you need them (shouldn’t happen often).
-
- % Using “\newenvironment” to redefine verbatim to
- % be called “code” doesn’t always work properly.
- % You can more reliably use:
+\DeclareUnicodeCharacter{8988}{\ensuremath{\ulcorner}}
+\DeclareUnicodeCharacter{8989}{\ensuremath{\urcorner}}
+\DeclareUnicodeCharacter{8803}{\ensuremath{\overline{\equiv}}}
+\DeclareUnicodeCharacter{8680}{\ensuremath{\Rightarrow}}
+\DeclareUnicodeCharacter{737}{\ensuremath{^l}}
+\DeclareUnicodeCharacter{8344}{\ensuremath{_m}}
+\DeclareUnicodeCharacter{8345}{\ensuremath{_n}}
 
 \begin{document}
 
+Code is available at
+\url{https://github.com/Twey/semantics-cm30226-sheet2}.  Requires
+\url{https://github.com/copumpkin/categories} for some basic
+category-theoretic definitions.
+
 \section{Some Definitions}
+
 \input{Defs}
 
 \section{Problem 1}
+The following Agda constitutes a proof that the category of monoids
+has finite products.
+
 \input{Problem1}
+
+\section{Problem 2}
+Had stomach ache; did not finish proofs. \frownie
 
 \end{document}

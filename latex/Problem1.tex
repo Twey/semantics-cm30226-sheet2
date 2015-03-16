@@ -1,6 +1,4 @@
 \begin{code}%
-\>\<%
-\\
 \>\AgdaKeyword{module} \AgdaModule{Problem1} \AgdaKeyword{where}\<%
 \\
 %
@@ -22,9 +20,11 @@
 \>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Data.Unit}\<%
 \\
 \>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Data.Product}\<%
-\\
-%
-\\
+\end{code}
+
+Commutative monoid terminal object and products.
+
+\begin{code}%
 \>\AgdaFunction{CMon-1} \AgdaSymbol{:} \AgdaRecord{CommutativeMonoid} \AgdaPrimitive{zero} \AgdaPrimitive{zero}\<%
 \\
 \>\AgdaFunction{CMon-1} \AgdaSymbol{=} \AgdaKeyword{record}\<%
@@ -127,9 +127,11 @@
 \\
 \>[2]\AgdaIndent{4}{}\<[4]%
 \>[4]\AgdaKeyword{open} \AgdaModule{Monoid} \AgdaSymbol{(}\AgdaFunction{M.monoid} \AgdaFunction{⊗M} \AgdaFunction{N.monoid}\AgdaSymbol{)}\<%
-\\
-%
-\\
+\end{code}
+
+Product projections.
+
+\begin{code}%
 \>\AgdaFunction{CMon-π₁} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{M} \AgdaBound{N}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaFunction{CMonMap} \AgdaSymbol{(}\AgdaBound{M} \AgdaFunction{⊗C} \AgdaBound{N}\AgdaSymbol{)} \AgdaBound{M}\<%
 \\
 \>\AgdaFunction{CMon-π₁} \AgdaSymbol{\{}\AgdaArgument{M} \AgdaSymbol{=} \AgdaBound{M}\AgdaSymbol{\}} \AgdaSymbol{=} \AgdaKeyword{record}\<%
@@ -179,9 +181,11 @@
 \\
 \>[0]\AgdaIndent{2}{}\<[2]%
 \>[2]\AgdaKeyword{where} \AgdaKeyword{module} \AgdaModule{N} \AgdaSymbol{=} \AgdaModule{CommutativeMonoid} \AgdaBound{N}\<%
-\\
-%
-\\
+\end{code}
+
+1 is the terminal object.
+
+\begin{code}%
 \>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Categories.Object.Terminal}\<%
 \\
 \>\AgdaFunction{CMon-Terminal} \AgdaSymbol{:} \AgdaRecord{Terminal} \AgdaFunction{CMon}\<%
@@ -201,9 +205,14 @@
 \\
 \>[0]\AgdaIndent{2}{}\<[2]%
 \>[2]\AgdaSymbol{\}}\<%
-\\
-%
-\\
+\end{code}
+
+There are products with the given terminal object and projections.
+Unfortunately, Agda's argument inference fails on the definition of
+{\tt universal}, and I haven't time to figure out why.  Pretend it says
+{\tt universal : CMon-π₁ ∘ i ≡ f → CMon-π₂ ∘ i ≡ g → ⟨ f , g ⟩ ≡ i}.
+
+\begin{code}%
 \>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Categories.Object.Product}\<%
 \\
 \>\AgdaFunction{CMon-Product} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{M} \AgdaBound{N}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaRecord{Product} \AgdaFunction{CMon} \AgdaBound{M} \AgdaBound{N}\<%
@@ -319,6 +328,4 @@
 \\
 \>[0]\AgdaIndent{2}{}\<[2]%
 \>[2]\AgdaSymbol{\}}\<%
-\\
-\>\<%
 \end{code}

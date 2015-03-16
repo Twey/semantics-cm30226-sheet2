@@ -1,6 +1,4 @@
 \begin{code}%
-\>\<%
-\\
 \>\AgdaKeyword{module} \AgdaModule{Defs} \AgdaKeyword{where}\<%
 \\
 %
@@ -16,9 +14,12 @@
 \>\AgdaKeyword{import} \AgdaModule{Relation.Binary.PropositionalEquality} \AgdaSymbol{as} \AgdaModule{≡}\<%
 \\
 \>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Relation.Binary.Core} \AgdaKeyword{using} \AgdaSymbol{(}Rel\AgdaSymbol{)}\<%
-\\
-%
-\\
+\end{code}
+
+Begin by defining monoid maps, slightly generalized to arbitrary
+relations.
+
+\begin{code}%
 \>\AgdaKeyword{record} \AgdaRecord{MonMap} \AgdaSymbol{\{}\AgdaBound{o} \AgdaBound{ℓ} \AgdaBound{o′} \AgdaBound{ℓ′}\AgdaSymbol{\}} \AgdaSymbol{(}\AgdaBound{S} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{o} \AgdaBound{ℓ}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaBound{T} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{o′} \AgdaBound{ℓ′}\AgdaSymbol{)}\<%
 \\
 \>[0]\AgdaIndent{4}{}\<[4]%
@@ -95,18 +96,22 @@
 \\
 \>[2]\AgdaIndent{4}{}\<[4]%
 \>[4]\AgdaKeyword{module} \AgdaModule{f} \AgdaSymbol{=} \AgdaModule{MonMap} \AgdaBound{f}\AgdaSymbol{;} \AgdaKeyword{module} \AgdaModule{g} \AgdaSymbol{=} \AgdaModule{MonMap} \AgdaBound{g}\<%
-\\
-%
-\\
+\end{code}
+
+Extensional equality is sufficient to identify monoid maps.
+
+\begin{code}%
 \>\AgdaFunction{MonMap-≡} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{o} \AgdaBound{ℓ}\AgdaSymbol{\}} \AgdaSymbol{\{}\AgdaBound{A} \AgdaBound{B} \AgdaSymbol{:} \AgdaRecord{Monoid} \AgdaBound{o} \AgdaBound{ℓ}\AgdaSymbol{\}} \AgdaSymbol{→} \AgdaFunction{Rel} \AgdaSymbol{(}\AgdaRecord{MonMap} \AgdaBound{A} \AgdaBound{B}\AgdaSymbol{)} \AgdaSymbol{(}\AgdaBound{ℓ} \AgdaPrimitive{⊔} \AgdaBound{o}\AgdaSymbol{)}\<%
 \\
 \>\AgdaFunction{MonMap-≡} \AgdaSymbol{\{}\AgdaArgument{B} \AgdaSymbol{=} \AgdaBound{B}\AgdaSymbol{\}} \AgdaBound{f} \AgdaBound{g} \AgdaSymbol{=} \AgdaSymbol{∀} \AgdaBound{x} \AgdaSymbol{→} \AgdaFunction{f.map} \AgdaBound{x} \AgdaFunction{≈} \AgdaFunction{g.map} \AgdaBound{x}\<%
 \\
 \>[0]\AgdaIndent{2}{}\<[2]%
 \>[2]\AgdaKeyword{where} \AgdaKeyword{open} \AgdaModule{Monoid} \AgdaBound{B}\AgdaSymbol{;} \AgdaKeyword{module} \AgdaModule{f} \AgdaSymbol{=} \AgdaModule{MonMap} \AgdaBound{f}\AgdaSymbol{;} \AgdaKeyword{module} \AgdaModule{g} \AgdaSymbol{=} \AgdaModule{MonMap} \AgdaBound{g}\<%
-\\
-%
-\\
+\end{code}
+
+The definition of the category.
+
+\begin{code}%
 \>\AgdaFunction{Mon} \AgdaSymbol{:} \AgdaRecord{Category} \AgdaSymbol{(}\AgdaPrimitive{suc} \AgdaPrimitive{zero}\AgdaSymbol{)} \AgdaPrimitive{zero} \AgdaPrimitive{zero}\<%
 \\
 \>\AgdaFunction{Mon} \AgdaSymbol{=} \AgdaKeyword{record}\<%
@@ -168,9 +173,12 @@
 \\
 \>[0]\AgdaIndent{2}{}\<[2]%
 \>[2]\AgdaSymbol{\}}\<%
-\\
-%
-\\
+\end{code}
+
+And now some objects of the category: the one-element monoid, maps to
+it, and monoid products.
+
+\begin{code}%
 \>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Data.Unit}\<%
 \\
 \>\AgdaKeyword{open} \AgdaKeyword{import} \AgdaModule{Data.Product}\<%
@@ -323,9 +331,11 @@
 \\
 \>[2]\AgdaIndent{4}{}\<[4]%
 \>[4]\AgdaKeyword{module} \AgdaModule{M} \AgdaSymbol{=} \AgdaModule{Monoid} \AgdaBound{M}\AgdaSymbol{;} \AgdaKeyword{module} \AgdaModule{N} \AgdaSymbol{=} \AgdaModule{Monoid} \AgdaBound{N}\<%
-\\
-%
-\\
+\end{code}
+
+Similarly for commutative monoids; we can reüse much of the monoid machinery.
+
+\begin{code}%
 \>\AgdaFunction{CMonMap} \AgdaSymbol{:} \AgdaSymbol{∀} \AgdaSymbol{\{}\AgdaBound{o} \AgdaBound{ℓ} \AgdaBound{o′} \AgdaBound{ℓ′}\AgdaSymbol{\}}\<%
 \\
 \>[2]\AgdaIndent{4}{}\<[4]%
@@ -385,6 +395,4 @@
 \\
 \>[0]\AgdaIndent{2}{}\<[2]%
 \>[2]\AgdaSymbol{\}}\<%
-\\
-\>\<%
 \end{code}
